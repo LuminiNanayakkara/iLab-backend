@@ -79,9 +79,9 @@ mongoose
   .connect(
     "mongodb+srv://admin:admin@ilabs.cdbtt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
     {
-      // useUnifiedTopology: true,
+      useUnifiedTopology: true,
       // useCreateIndex: true,
-      // useNewUrlParser: true,
+      useNewUrlParser: true,
       // useFindAndModify: true,
     }
   )
