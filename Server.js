@@ -3,6 +3,8 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const Question = require("./models/Question");
 
+require("dotenv").config();
+
 const app = express();
 
 app.use(cors());
@@ -69,6 +71,9 @@ app.delete("/delete/:id", async (req, res, next) => {
   }
 });
 
+app.get("/", (req, res, next) => {
+  return res.status(200).json({ message: "Hello" });
+});
 const port = process.env.PORT || 9090;
 mongoose
   .connect(
