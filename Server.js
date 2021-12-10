@@ -23,6 +23,7 @@ app.post("/add-question", async (req, res, next) => {
   if (!req.body) {
     return;
   }
+  console.log(req.body);
   const { question, category } = req.body;
   const newQuestion = new Question({
     question: question,
@@ -33,6 +34,36 @@ app.post("/add-question", async (req, res, next) => {
   try {
     const result = await newQuestion.save();
     return res.status(200).json({ data: result });
+  } catch (error) {
+    return res.status(500).json({ error: error });
+  }
+});
+
+app.put("/deactivate", async (req, res, next) => {
+  if (!req.body) {
+    return;
+  }
+  const { _id } = req.body;
+  const filter = { _id: _id };
+  const update = { status: "Draft" };
+
+  try {
+    let response = await Question.findOneAndUpdate(filter, update, {
+      new: true,
+    });
+    return res.status(200).json(response);
+  } catch (err) {
+    const error = new HttpError("Unexpected Error Occured", 503);
+    return next(error);
+  }
+});
+
+app.delete("/delete/:id", async (req, res, next) => {
+  const id = req.params.id;
+  console.log(id);
+  try {
+    const result = await Question.deleteOne({ _id: id });
+    return res.status(200).json(result);
   } catch (error) {
     return res.status(500).json({ error: error });
   }
